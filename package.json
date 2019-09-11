@@ -1,0 +1,25 @@
+{
+  "name": "server",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.5",
+    "body-parser": "~1.18.2",
+    "busboy": "^0.3.0",
+    "cookie-parser": "~1.4.3",
+    "cors": "2.8.4",
+    "debug": "~2.6.9",
+    "express": "~4.15.5",
+    "express-fileupload": "0.4.0",
+    "jade": "~1.11.0",
+    "jsonwebtoken": "^8.5.1",
+    "limits": "^1.0.0",
+    "mongoose": "^5.4.11",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.9",
+    "serve-favicon": "~2.4.5"
+  }
+}
