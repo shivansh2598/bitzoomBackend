@@ -202,7 +202,8 @@ app.post('/feedback',verifytoken,(req,res)=>{
 		feedback=new feedbackschema()
 		feedback.name=`${req.body.name}`,
 		feedback.branch=`${req.body.branch}`,
-		feedback.suggestion=`${req.body.suggestion}`
+		feedback.suggestion=`${req.body.suggestion}`,
+		feedback.email=`${req.body.email}`
 		 
 		feedback.save((err,result)=>{
 				if(err)

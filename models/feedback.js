@@ -10,6 +10,9 @@ var feedbackschema=new mongoose.Schema({
     suggestion:{
         type:String,
         required:true
+    },
+    email:{
+        type:String
     }
 })
 
