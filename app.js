@@ -54,13 +54,11 @@ app.post(
   "/upload",
   verifytoken1,
   (req, res, next) => {
-    // console.log(req)
     try {
       var size = req.rawHeaders[5];
       var size1 = parseInt(size);
-      console.log(size1);
       if (size1 > 30000000) {
-        res.json({
+        return res.json({
           status: 413,
           msg: "File size exceeded, please upload file with size <30mb",
         });
@@ -68,7 +66,7 @@ app.post(
         next();
       }
     } catch (err) {
-      res.json({
+      return res.json({
         status: 500,
         msg: "Internal server error, please try again",
       });
@@ -76,12 +74,13 @@ app.post(
   },
   (req, res, next) => {
     if (
-      req.files === null ||
+      req.body.file === null ||
+      req.body.file === 'undefined' ||
       req.body.subject === "" ||
       req.body.semester === "" ||
       req.body.branch === ""
     ) {
-      res.json({ status: 422, msg: "Missing Required Parameters" });
+      return res.json({ status: 422, msg: "Missing Required Parameters" });
     } else if (
       req.files.file.mimetype === "image/jpeg" ||
       req.files.file.mimetype === "image/png" ||
@@ -89,7 +88,7 @@ app.post(
     )
       next();
     else {
-      res.json({ status: 415, msg: "file format not supported error" });
+      return res.json({ status: 415, msg: "file format not supported error" });
     }
     // ||req.files.file.mimetype==='application/x-zip-compressed'
     // ||req.files.file.mimetype==='application/msword'
@@ -116,19 +115,19 @@ app.post(
           { $inc: { uploads: 1 } },
           (err, reslt) => {
             if (err) {
-              res.json({
+              return res.json({
                 status: 500,
                 msg: "Internal server error, please try again",
               });
             } else {
               entry.save((err, succ) => {
                 if (err) {
-                  res.json({
+                  return res.json({
                     status: 500,
                     msg: "Internal server error, please try again",
                   });
                 }
-                res.json({ status: 200, msg: "success" });
+                return res.json({ status: 200, msg: "success" });
               });
             }
           }
@@ -201,17 +200,16 @@ app.post("/feedback", verifytoken, (req, res) => {
 app.post(
   "/signup",
   (req, res, next) => {
+    console.log(req.body);
     User1.findOne(
       {
-        $or: {
-          email_id: req.body.email,
-          ip: req.connection.remoteAddress,
-        },
+        email_id: req.body.email,
       },
       (err, user) => {
-        if (err)
+        if (err) {
+          console.log(err);
           return res.json({ status: 500, message: "error on the server" });
-        else if (user)
+        } else if (user)
           return res.json({
             status: 404,
             message: "A user already exists with same email id",
@@ -322,34 +320,18 @@ app.get("/verifytoken", (req, res) => {
       });
     // if everything good, save to request for use in other routes
     else {
-      // User1.findOne({_id:decoded.id},(err,user)=>{
-      // 		if(err)
-      // 		{
-
-      // 		return res.status(500).send({ auth: false, message: 'Failed to authenticate token.',value:0 });
-      // 		}
-      // 		else
-      // 		{
-      // 			if((user.ip).substr(0,14)===req.connection.remoteAddress.substr(0,14))
-      // 			{
-      // 				return res.status(200).send({ auth: true, message: 'Token Authenticated' });
-      // 			}
-      // 			else
-      // 			{
-      // 				return res.status(500).send({ auth: false, message: 'Failed to authenticate token.',value:0 });
-      // 			}
-      // 		}
-      // })
-      return res
-        .status(200)
-        .send({ auth: true, message: "Token Authenticated" });
+      // setTimeout(() => {
+        return res
+          .status(200)
+          .send({ auth: true, message: "Token Authenticated" });
+      // }, 500);
     }
   });
 });
 app.get("/subjects/all", async (req, res) => {
   try {
     let subLst;
-	subLst = await SubjectList.find({}, { Subject: 1, _id: 0 });
+    subLst = await SubjectList.find({}, { Subject: 1, _id: 0 });
     return res.status(200).send({ data: subLst });
   } catch (err) {
     return res.status(400).send({ data: "Error Occured" });
@@ -367,7 +349,7 @@ app.get("/subjects/sem_branch", verifytoken, async (req, res) => {
         },
         {
           Subject: 1, //Projecting the required data
-          _id : 0
+          _id: 0,
         }
       );
     else
@@ -378,7 +360,7 @@ app.get("/subjects/sem_branch", verifytoken, async (req, res) => {
         },
         {
           Subject: 1,
-          _id : 0
+          _id: 0,
         }
       );
     return res.status(200).send({ data: subLst });
@@ -387,17 +369,19 @@ app.get("/subjects/sem_branch", verifytoken, async (req, res) => {
   }
 });
 
-app.get('/subjects/semester', verifytoken, async (req, res) => {
+app.get("/subjects/semester", verifytoken, async (req, res) => {
   try {
     const { semester } = req.query;
     let subLst;
-	subLst = await SubjectList.find({Semester : semester}, { Subject: 1, _id: 0 });
+    subLst = await SubjectList.find(
+      { Semester: semester },
+      { Subject: 1, _id: 0 }
+    );
     return res.status(200).send({ data: subLst });
   } catch (err) {
     return res.status(400).send({ data: "Error Occured" });
   }
-
-})
+});
 
 app.listen(port);
 
