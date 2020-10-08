@@ -6,19 +6,16 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "bcrypt": "^3.0.5",
+    "bcrypt": "^3.0.8",
     "body-parser": "~1.18.2",
     "busboy": "^0.3.0",
-    "cookie-parser": "~1.4.3",
+    "cookie-parser": "^1.4.5",
     "cors": "2.8.4",
-    "debug": "~2.6.9",
     "express": "^4.17.1",
-    "express-fileupload": "^1.1.6",
-    "jade": "~1.11.0",
+    "express-fileupload": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
-    "limits": "^1.0.0",
-    "mongoose": "^5.4.11",
-    "morgan": "^1.9.1",
+    "mongoose": "^5.10.8",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
     "serve-favicon": "~2.4.5"
   }
