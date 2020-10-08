@@ -7,7 +7,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors"); // addition we make
 const fileUpload = require("express-fileupload"); //addition we make
-const port = 4000;
+const port = process.env.PORT;
 
 const Main = require('./Routes/Main_Route')
 const Auth = require('./Routes/Authentication')
@@ -47,4 +47,5 @@ app.get('*', (req, res) => {
   return res.status(404).send("No such route exists!!")
 })
 
-app.listen(port);
+// app.listen(port);
+module.exports = app;
