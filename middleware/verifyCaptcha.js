@@ -1,4 +1,4 @@
-const config = require('../config.js');
+const config = require('../configs.js');
 
 verifyCaptcha= (req,res,next)=>{
     // g-recaptcha-response is the key that browser will generate upon form submit.

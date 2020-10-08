@@ -11,7 +11,7 @@ const port = process.env.PORT;
 
 const Main = require('./Routes/Main_Route')
 const Auth = require('./Routes/Authentication')
-const config = require("./config");
+const config = require("./configs");
 const Subject_filter = require('./Routes/Subject_Filter')
 const Pic_filter = require('./Routes/Pic_Filter')
 

@@ -1,6 +1,4 @@
 node_modules/
 /tempfile.js
 public
-# config.js
 /public
-# /config.js
